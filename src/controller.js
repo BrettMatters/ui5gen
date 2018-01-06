@@ -5,20 +5,27 @@ exports.createController = function (namespace, parentController, validatorNames
     var path = require('path');
     var handlebars = require('handlebars');
 
+    //Get all the template input fields
+    var controllerConfig = {
+        parentController: getParentControllerNamespace(parentController),
+        controllerNamespace: utils.calculateNamespace(namespace),
+        dependencies: utils.getConfig('defaultControllerDependencies')
+    }
+    //Link the validator if required
+    if (validatorNamespace) {
+        //Namespace need to be oonverted to a URL as this is the expected format
+        controllerConfig.dependencies.push({
+            uri: utils.convertNamespaceToURI(validatorNamespace),
+            name: 'Validator'
+        });
+    }
+
     fs.readFile(path.join(__dirname, '../templates/controller.js'), 'utf8', function (err, file) {
         //Pull the file into handlebars
         var template = handlebars.compile(file);
 
-        //Calculate the optional dependencies for the controller
-        var dependencies = getDependencies(validatorNamespace);
-
         //Fill in the template to create a controller
-        var controller = template({
-            parentController: getParentControllerNamespace(parentController),
-            controllerNamespace: getFullNamespace(namespace),
-            dependencies: dependencies.namespaces,
-            dependenciesVariables: dependencies.vars
-        });
+        var controller = template(controllerConfig);
 
         //Save the controller
         if (!testMode) {
@@ -27,22 +34,10 @@ exports.createController = function (namespace, parentController, validatorNames
             console.log(controller);
         }
     });
+
+    //Return the config for any processes that need it
+    return controllerConfig;
 };
-
-function getDependencies(validatorNamespace) {
-    var dcd = utils.getConfig('defaultControllerDependencies');
-
-    var namespaces = '', vars = '';
-    for (let i = 0; i < dcd.length; i++) {
-        namespaces += ', \'' + dcd[i].uri + '\'';
-        vars += ', ' + dcd[i].name;
-    }
-
-    return {
-        namespaces: namespaces,
-        vars: vars
-    }
-}
 
 function getParentControllerNamespace(parentController) {
     //If no parent is specified
@@ -62,8 +57,4 @@ function getParentControllerNamespace(parentController) {
 
     //Use the default for the project, or base SAP controller
     return utils.getConfig('defaultControllerParent') || 'sap/ui/core/mvc/Controller';
-}
-
-function getFullNamespace(namespace) {
-    return utils.calculateNamespace(namespace);;
 }

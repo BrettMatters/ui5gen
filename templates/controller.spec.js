@@ -1,5 +1,5 @@
 describe('Test suite for {{namespace}}', function () {
-    var view, controller
+    var view, controller;
   
     beforeEach(function () {
       // Create a generic view

@@ -18,5 +18,14 @@
             "id": "Dialog",
             "uri": "application/views/common/DialogController"
         }
+    ],
+    //Validator class used as the default parent for new validators
+    "defaultValidatorParent": "application/views/common/Validator",
+    //Register any default files to be included in the validator sap.ui.define statement
+    "defaultValidatorDependencies": [
+        {
+            "uri": "application/utils/Moment",
+            "name": "Moment"
+        }
     ]
 }

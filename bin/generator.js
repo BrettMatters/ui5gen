@@ -9,13 +9,26 @@ commander
     .option('--no-tests', 'No jasmine test spec')
     .option('--test', 'Test mode, no files created')
     .action(function (namespace, parentController, options) {
-        //TODO: Create validator if requested
-        var validatorNamespace;
+        var validatorConfig;
+        if (options.validator) {
+            var validator = require('../src/validator.js');
+            validatorConfig = validator.createValidator(namespace, options.test);
 
-        //TODO: Create test unless set to not
+            //Create a test suite unless set not to via --no-tests
+            if (options.tests) {
+                var validatorTest = require('../src/validatorTest.js');
+                validatorTest.createValidatorTest(validatorConfig.validatorNamespace, options.test);
+            }
+        }
 
         var controller = require('../src/controller.js');
-        controller.createController(namespace, parentController, validatorNamespace, options.test);
+        var controllerConfig = controller.createController(namespace, parentController, validatorConfig.validatorNamespace, options.test);
+
+        //Create a test suite unless set not to via --no-tests
+        if (options.tests) {
+            var controllerTest = require('../src/controllerTest.js');
+            controllerTest.createControllerTest(controllerConfig.controllerNamespace, options.test);
+        }
     });
 
 commander

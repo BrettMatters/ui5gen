@@ -38,6 +38,10 @@ exports.calculateNamespace = function (namespace) {
     return derivedNamespace;
 }
 
+exports.convertNamespaceToURI = function (namespace) {
+    return namespace.replace(/\./g, '/');
+}
+
 /**
  * Bit of a crappy process to try and find the '.ui5gen.json' configuration in the file structure
  * from where ui5gen was called from. As this module can (and should) be installed globally
