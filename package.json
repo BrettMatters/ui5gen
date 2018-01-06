@@ -1,0 +1,22 @@
+{
+  "name": "ui5gen",
+  "version": "1.0.7",
+  "description": "UI5 template generator",
+  "main": "bin/generator.js",
+  "scripts": {
+    "start": "node bin/generator.js",
+    "dist": "npm version patch && cd dist && npm pack ../ && cd.."
+  },
+  "author": "Brett Matters (BrettDMatters@gmail.com)",
+  "license": "ISC",
+  "bin": {
+    "ui5gen": "bin/generator.js"
+  },
+  "dependencies": {
+    "commander": "^2.12.2",
+    "handlebars": "^4.0.11",
+    "nconf": "^0.10.0",
+    "prompt": "^1.0.0",
+    "strip-json-comments": "^2.0.1"
+  }
+}

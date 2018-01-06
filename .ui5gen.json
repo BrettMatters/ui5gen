@@ -1,0 +1,15 @@
+{
+    //Root level of source code, used to auto determine namespace of files
+    "sourceRoot": "src",
+    //Root namespace of application to be used
+    "rootNamespace": "application",
+    //Controller class used as the default parent for new controllers
+    "defaultControllerParent": "application/views/common/Controller",
+    //Register re-usable parent controllers which can be selected using optional [parentController] argument
+    "parentControllers": [
+        {
+            "id": "Dialog",
+            "uri": "application/views/common/DialogController"
+        }
+    ]
+}
