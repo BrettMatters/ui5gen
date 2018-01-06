@@ -30,9 +30,17 @@ exports.createController = function (namespace, parentController, validatorNames
 };
 
 function getDependencies(validatorNamespace) {
+    var dcd = utils.getConfig('defaultControllerDependencies');
+
+    var namespaces = '', vars = '';
+    for (let i = 0; i < dcd.length; i++) {
+        namespaces += ', \'' + dcd[i].uri + '\'';
+        vars += ', ' + dcd[i].name;
+    }
+
     return {
-        namespaces: undefined,
-        vars: undefined
+        namespaces: namespaces,
+        vars: vars
     }
 }
 
@@ -49,7 +57,7 @@ function getParentControllerNamespace(parentController) {
         }
 
         //Show error on console
-        console.log('Cann\'t find parent controller: ' + parentController, '. Default has been used.');
+        console.log('Can\'t find parent controller: ' + parentController, '. Default has been used.');
     }
 
     //Use the default for the project, or base SAP controller
@@ -57,5 +65,5 @@ function getParentControllerNamespace(parentController) {
 }
 
 function getFullNamespace(namespace) {
-    return namespace;
+    return utils.calculateNamespace(namespace);;
 }

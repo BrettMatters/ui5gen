@@ -17,6 +17,27 @@ exports.getConfig = function (item) {
     return nconf.get(item);
 }
 
+exports.calculateNamespace = function (namespace) {
+    var cwd = process.cwd();
+    var sourceRoot = this.getConfig('sourceRoot');
+    var rootNamespace = this.getConfig('rootNamespace');
+
+    //Bail if .ui5config.json isnt setup right
+    if (!sourceRoot || !rootNamespace) {
+        console.log('Can\'t determine namespace without sourceRoot and rootNamespace .ui5config.json properties set.');
+        return namespace;
+    }
+
+    //Find where we are relative to the sourceRoot
+    var fromRoot = cwd.substr(cwd.indexOf(sourceRoot) + sourceRoot.length);
+    var derivedNamespace = rootNamespace + fromRoot + '/' + namespace;
+
+    //Convert any slashes or multiple full stops into full stops
+    derivedNamespace = derivedNamespace.replace(/\\/g, '.').replace(/\//g, '.').replace(/\.\./g, '.');
+
+    return derivedNamespace;
+}
+
 /**
  * Bit of a crappy process to try and find the '.ui5gen.json' configuration in the file structure
  * from where ui5gen was called from. As this module can (and should) be installed globally
