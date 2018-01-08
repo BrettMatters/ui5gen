@@ -1,6 +1,6 @@
 {
   "name": "ui5gen",
-  "version": "1.0.7",
+  "version": "1.0.0",
   "description": "UI5 template generator",
   "main": "bin/generator.js",
   "scripts": {
