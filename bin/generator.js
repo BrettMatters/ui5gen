@@ -4,7 +4,7 @@ var commander = require('commander');
 commander
     .command('controller <namespace> [parentController]')
     .alias('c')
-    .description('Creates a controller')
+    .description('Creates a controller, (optional) validator and test shell(s)')
     .option('-v, --validator', 'Create and link a validator')
     .option('--no-tests', 'No jasmine test spec')
     .action(function (namespace, parentController, options) {
@@ -18,6 +18,7 @@ commander
 
 commander
     .command('view <namespace> [controllerNamespace]')
+    .alias('v')
     .description('Creates a view')
     .action(function (namespace, controllerNamespace, options) {
         createView(namespace, controllerNamespace);
@@ -25,11 +26,28 @@ commander
 
 commander
     .command('module <namespace> [parentController]')
+    .alias('m')
     .description('Creates a view, controller, validator and test shells for a new UI5 module')
     .action(function (namespace, parentController, options) {
         var valConf = createValidator(namespace);
         createController(namespace, parentController, valConf.validatorNamespace);
         createView(namespace);
+    });
+
+commander
+    .command('type <namespace>')
+    .alias('t')
+    .description('Creates a type, default to a SimpleType but can be overridden with options')
+    .option('-b, --boolean', 'Boolean')
+    .option('-c, --currency', 'Currency')
+    .option('-d, --date', 'Date')
+    .option('-f, --float', 'Float')
+    .option('-i, --integer', 'Integer')
+    .option('-s, --string', 'String')
+    .option('-t, --time', 'Time')
+    .action(function (namespace, options) {
+        var type = require('../src/type.js');
+        return type.createType(namespace, options);
     });
 
 commander.parse(process.argv);
