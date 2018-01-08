@@ -1,6 +1,6 @@
 var utils = require('./utils');
 
-exports.createControllerTest = function (controllerNamespace, testMode) {
+exports.createControllerTest = function (controllerNamespace) {
     var fs = require('fs');
     var path = require('path');
     var handlebars = require('handlebars');
@@ -17,12 +17,8 @@ exports.createControllerTest = function (controllerNamespace, testMode) {
         //Fill in the template to create a controller
         var controllerTest = template(controllerTestConfig);
 
-        //Save the controllerTest
-        if (!testMode) {
-
-        } else {
-            console.log(controllerTest);
-        }
+        //Save the controllerTest        
+        console.log(controllerTest);
 
         //Return the config for any processes that need it
         return controllerTestConfig;

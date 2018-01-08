@@ -1,6 +1,6 @@
 var utils = require('./utils');
 
-exports.createValidator = function (namespace, testMode) {
+exports.createValidator = function (namespace) {
     var fs = require('fs');
     var path = require('path');
     var handlebars = require('handlebars');
@@ -8,7 +8,7 @@ exports.createValidator = function (namespace, testMode) {
     //Get all the template input fields
     var validatorConfig = {
         parentValidator: utils.getConfig('defaultValidatorParent') || 'sap.ui.base.Object',
-        validatorNamespace: utils.calculateNamespace(namespace) +'Validator',
+        validatorNamespace: utils.calculateNamespace(namespace) + 'Validator',
         dependencies: utils.getConfig('defaultValidatorDependencies')
     }
 
@@ -19,12 +19,8 @@ exports.createValidator = function (namespace, testMode) {
         //Fill in the template to create a controller
         var validator = template(validatorConfig);
 
-        //Save the controller
-        if (!testMode) {
-
-        } else {
-            console.log(validator);
-        }
+        //Save the validator       
+        console.log(validator);
     });
 
     //Return the config for any processes that need it

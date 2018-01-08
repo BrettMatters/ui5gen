@@ -1,0 +1,2 @@
+<mvc:View controllerName="{{controllerName}}" xmlns="{{defaultXmlNamespace}}"{{#xmlNamespaces}} xmlns:{{prefix}}="{{uri}}"{{/xmlNamespaces}}>
+</mvc:View>

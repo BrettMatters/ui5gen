@@ -1,6 +1,6 @@
 var utils = require('./utils');
 
-exports.createController = function (namespace, parentController, validatorNamespace, testMode) {
+exports.createController = function (namespace, parentController, validatorNamespace) {
     var fs = require('fs');
     var path = require('path');
     var handlebars = require('handlebars');
@@ -28,11 +28,7 @@ exports.createController = function (namespace, parentController, validatorNames
         var controller = template(controllerConfig);
 
         //Save the controller
-        if (!testMode) {
-
-        } else {
-            console.log(controller);
-        }
+        console.log(controller);
     });
 
     //Return the config for any processes that need it

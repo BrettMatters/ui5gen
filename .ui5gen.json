@@ -1,8 +1,17 @@
 {
     //Root level of source code, used to auto determine namespace of files
     "sourceRoot": "UI5Gen",
-    //Root namespace of application to be used
+    //Root namespace of application to be used  
     "rootNamespace": "application",
+    //Default namespace for views and fragments
+    "defaultXmlNamespace": "sap.m",
+    //
+    "additionalXmlNamespaces": [
+        {
+            "prefix": "l",
+            "uri": "sap.ui.layout"
+        }
+    ],
     //Controller class used as the default parent for new controllers
     "defaultControllerParent": "application/views/common/Controller",
     //Register any default files to be included in the controller sap.ui.define statement

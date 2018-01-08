@@ -7,37 +7,64 @@ commander
     .description('Creates a controller')
     .option('-v, --validator', 'Create and link a validator')
     .option('--no-tests', 'No jasmine test spec')
-    .option('--test', 'Test mode, no files created')
     .action(function (namespace, parentController, options) {
-        var validatorConfig;
+        var validatorConfig = {};
         if (options.validator) {
-            var validator = require('../src/validator.js');
-            validatorConfig = validator.createValidator(namespace, options.test);
-
-            //Create a test suite unless set not to via --no-tests
-            if (options.tests) {
-                var validatorTest = require('../src/validatorTest.js');
-                validatorTest.createValidatorTest(validatorConfig.validatorNamespace, options.test);
-            }
+            validatorConfig = createValidator(namespace, options.tests);
         }
 
-        var controller = require('../src/controller.js');
-        var controllerConfig = controller.createController(namespace, parentController, validatorConfig.validatorNamespace, options.test);
-
-        //Create a test suite unless set not to via --no-tests
-        if (options.tests) {
-            var controllerTest = require('../src/controllerTest.js');
-            controllerTest.createControllerTest(controllerConfig.controllerNamespace, options.test);
-        }
+        createController(namespace, parentController, validatorConfig.validatorNamespace, options.tests);
     });
 
 commander
-    .command('view [namespace]')
+    .command('view <namespace> [controllerNamespace]')
     .description('Creates a view')
-    .action(function (namespace, options) {
-        // var mode = options.setup_mode || 'normal';
-        // env = env || 'all';
-        // console.log('cccc', env, mode);
+    .action(function (namespace, controllerNamespace, options) {
+        createView(namespace, controllerNamespace);
+    });
+
+commander
+    .command('module <namespace> [parentController]')
+    .description('Creates a view, controller, validator and test shells for a new UI5 module')
+    .action(function (namespace, parentController, options) {
+        var valConf = createValidator(namespace);
+        createController(namespace, parentController, valConf.validatorNamespace);
+        createView(namespace);
     });
 
 commander.parse(process.argv);
+
+
+// Re-usable functions to run processing
+function createView(namespace, controllerNamespace) {
+    var view = require('../src/view.js');
+    return view.createView(namespace, controllerNamespace);
+}
+
+function createController(namespace, parentController, validatorNamespace, tests) {
+    var controller = require('../src/controller.js');
+    var controllerConfig = controller.createController(namespace, parentController, validatorNamespace);
+
+    //Create a test suite unless set not to via --no-tests
+    if (tests) {
+        var controllerTest = require('../src/controllerTest.js');
+        controllerTest.createControllerTest(controllerConfig.controllerNamespace);
+    }
+
+    return controllerConfig;
+}
+
+function createValidator(namespace, tests) {
+    var validatorConfig = {};
+
+    var validator = require('../src/validator.js');
+    validatorConfig = validator.createValidator(namespace);
+
+    //Create a test suite unless set not to via --no-tests
+    if (tests) {
+        var validatorTest = require('../src/validatorTest.js');
+        validatorTest.createValidatorTest(validatorConfig.validatorNamespace);
+    }
+
+    return validatorConfig;
+}

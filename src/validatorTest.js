@@ -1,6 +1,6 @@
 var utils = require('./utils');
 
-exports.createValidatorTest = function (validatorNamespace, testMode) {
+exports.createValidatorTest = function (validatorNamespace) {
     var fs = require('fs');
     var path = require('path');
     var handlebars = require('handlebars');
@@ -17,12 +17,8 @@ exports.createValidatorTest = function (validatorNamespace, testMode) {
         //Fill in the template to create a validator
         var validatorTest = template(validatorTestConfig);
 
-        //Save the validatorTest
-        if (!testMode) {
-
-        } else {
-            console.log(validatorTest);
-        }
+        //Save the validatorTest       
+        console.log(validatorTest);
 
         //Return the config for any processes that need it
         return validatorTestConfig;
