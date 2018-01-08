@@ -2,6 +2,7 @@ var path = require('path');
 var fs = require('fs');
 var nconf = require('nconf');
 var stripJsonComments = require('strip-json-comments');
+var mkdirp = require('mkdirp');
 
 //Setup nconf
 nconf.argv().env().file({
@@ -40,6 +41,12 @@ exports.calculateNamespace = function (namespace) {
 
 exports.convertNamespaceToURI = function (namespace) {
     return namespace.replace(/\./g, '/');
+}
+
+exports.writeFile = function (name, contents) {
+    mkdirp(path.dirname(name), function (err) {
+        fs.writeFileSync(name, contents);        
+    });
 }
 
 /**

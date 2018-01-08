@@ -28,7 +28,7 @@ exports.createController = function (namespace, parentController, validatorNames
         var controller = template(controllerConfig);
 
         //Save the controller
-        console.log(controller);
+        utils.writeFile(namespace + '.controller.js', controller);
     });
 
     //Return the config for any processes that need it

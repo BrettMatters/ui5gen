@@ -1,6 +1,6 @@
 var utils = require('./utils');
 
-exports.createControllerTest = function (controllerNamespace) {
+exports.createControllerTest = function (namespace, controllerNamespace) {
     var fs = require('fs');
     var path = require('path');
     var handlebars = require('handlebars');
@@ -18,7 +18,7 @@ exports.createControllerTest = function (controllerNamespace) {
         var controllerTest = template(controllerTestConfig);
 
         //Save the controllerTest        
-        console.log(controllerTest);
+        utils.writeFile(namespace + '.spec.js', controllerTest);
 
         //Return the config for any processes that need it
         return controllerTestConfig;

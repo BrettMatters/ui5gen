@@ -29,8 +29,8 @@ commander
     .alias('m')
     .description('Creates a view, controller, validator and test shells for a new UI5 module')
     .action(function (namespace, parentController, options) {
-        var valConf = createValidator(namespace);
-        createController(namespace, parentController, valConf.validatorNamespace);
+        var valConf = createValidator(namespace, true);
+        createController(namespace, parentController, valConf.validatorNamespace, true);
         createView(namespace);
     });
 
@@ -66,7 +66,7 @@ function createController(namespace, parentController, validatorNamespace, tests
     //Create a test suite unless set not to via --no-tests
     if (tests) {
         var controllerTest = require('../src/controllerTest.js');
-        controllerTest.createControllerTest(controllerConfig.controllerNamespace);
+        controllerTest.createControllerTest(namespace, controllerConfig.controllerNamespace);
     }
 
     return controllerConfig;
@@ -81,7 +81,7 @@ function createValidator(namespace, tests) {
     //Create a test suite unless set not to via --no-tests
     if (tests) {
         var validatorTest = require('../src/validatorTest.js');
-        validatorTest.createValidatorTest(validatorConfig.validatorNamespace);
+        validatorTest.createValidatorTest(namespace, validatorConfig.validatorNamespace);
     }
 
     return validatorConfig;

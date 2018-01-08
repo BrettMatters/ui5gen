@@ -33,7 +33,7 @@ exports.createView = function (namespace, controllerName) {
         var view = template(viewConfig);
 
         //Save the view       
-        console.log(view);
+        utils.writeFile(namespace + '.view.xml', view);
     });
 
     //Return the config for any processes that need it

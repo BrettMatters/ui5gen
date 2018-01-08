@@ -14,8 +14,8 @@ exports.createType = function (namespace, options) {
     var fs = require('fs');
     var path = require('path');
     var handlebars = require('handlebars');
-
     var type;
+
     //Loop over the possible types
     for (let t in types) {
         //and check if the options flag is true
@@ -37,8 +37,8 @@ exports.createType = function (namespace, options) {
         //Fill in the template to create a controller
         var type = template(typeConfig);
 
-        //Save the type       
-        console.log(type);
+        //Save the type      
+        utils.writeFile(namespace + '.js', type);
     });
 
     //Return the config for any processes that need it

@@ -20,7 +20,7 @@ exports.createValidator = function (namespace) {
         var validator = template(validatorConfig);
 
         //Save the validator       
-        console.log(validator);
+        utils.writeFile(namespace + 'Validator.js', validator);
     });
 
     //Return the config for any processes that need it
